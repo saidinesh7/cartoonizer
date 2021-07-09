@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Titan+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <header><h1>Cartoonizer</h1></header>
+    <div class="main-container">
+        <div class="left">
+    <input type="file" id="userinp">
+    <button id="button" onclick="convert()">convert</button>
+    <br>
+    <div class="notice" id="notice"></div>
+    <div class="arrow"><i class="fas fa-angle-double-down" id="arrow"></i></div>
+        </div>
+<div class="right">
+    <div class="loader" id="loader"></div>
+    <div id="output"></div>
+</div>
+<div id="dialog" title="Instruction">
+    <p><img src="pspref.jpg"><h4>Upload a (HD)image as shown in reference format for better results..</h4></p>
+  </div>
+</div>
+
+    <script src="https://cdnjs.deepai.org/deepai.min.js"></script>
+    <script>
+          $( function() {
+    $( "#dialog" ).dialog();
+  } );
+
+//alert("Hello everyone thanks for visiting!! Instructions to use this its a simple on step procedure just upload an image with proper face visibility..My adivce to upload an image which is properly facing towards camera (i.e passport size photo)");
+        deepai.setApiKey('b9a79702-70f0-4db5-8800-c1e7a0af42ce');
+var notice=document.getElementById("notice");
+var fileinp=document.getElementById("userinp");
+var loader=document.getElementById("loader");
+var arrow=document.getElementById("arrow");
+
+async function convert(){
+loader.style.display="block";
+if(fileinp.value==""){
+    alert("choose a file...");
+    loader.style.display="none";
+}
+else{
+var result = await deepai.callStandardApi("toonify",{
+    image: document.getElementById('userinp')
+});
+ await deepai.renderResultIntoElement(result, document.getElementById('output'));
+}
+if(!result){
+    alert('invalid');
+}
+else {
+    notice.innerHTML="Cartoon Generated Scroll Down...";
+  
+}
+if(window.screen.width<=480){
+    arrow.style.display="block";
+}
+}
+
+    </script>
+</body>
+</html>
